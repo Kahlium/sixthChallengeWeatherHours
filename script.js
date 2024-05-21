@@ -6,6 +6,7 @@ const weatherButton = document.getElementById("getWeather")
 //const temperature = document.getElementById("temperature")
 //const weather = document.getElementById("weather")
 
+
 function weatherFetch() {
     let cityName = localStorage.getItem('city')
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=metric&appid=cb3d45c4f69eaeaed96e4308e4f6d9cb`)
@@ -19,7 +20,7 @@ function weatherFetch() {
 
                 const weatherCard = document.createElement("div")
                 const date = document.createElement("p");
-                const weather = document.createElement("p");
+                const weather = document.createElement("img");
                 const temperature = document.createElement("p");
                 const wind = document.createElement("p");
                 const humidity = document.createElement("p");
@@ -29,7 +30,8 @@ function weatherFetch() {
 
                 date.textContent = data.list[i].dt_txt;
                 temperature.textContent = `Temperature C* ${data.list[i].main.temp}`;
-                weather.textContent = data.list[i].weather[0].main;
+                const icon = data.list[i].weather[0].icon;
+                weather.setAttribute("src", `http://openweathermap.org/img/w/${icon}.png`)
                 wind.textContent = `Wind Speed: ${data.list[i].wind.speed}`;
                 humidity.textContent = `Humidity: ${data.list[i].main.humidity}`;
             }
