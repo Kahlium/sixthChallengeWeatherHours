@@ -1,9 +1,10 @@
 //API key cb3d45c4f69eaeaed96e4308e4f6d9cb
+const gridContainer = document.querySelector(".gridContainer")
 const city = document.getElementById("city")
 const weatherButton = document.getElementById("getWeather")
 
-const temperature = document.getElementById("temperature")
-const weather = document.getElementById("weather")
+//const temperature = document.getElementById("temperature")
+//const weather = document.getElementById("weather")
 
 function weatherFetch() {
     let cityName = localStorage.getItem('city')
@@ -14,16 +15,28 @@ function weatherFetch() {
         .then(function (data) {
             console.log(data);
 
-            for (let i = 0; i < 5; i++) {
-                temperature.textContent = data.list[i].main.temp
+            for (let i = 0; i < 40; i += 8) {
+
+                const weatherCard = document.createElement("div")
+                const date = document.createElement("p");
+                const weather = document.createElement("p");
+                const temperature = document.createElement("p");
+                const wind = document.createElement("p");
+                const humidity = document.createElement("p");
+
+                weatherCard.append(date, temperature, weather, wind, humidity)
+                gridContainer.append(weatherCard)
+
+                date.textContent = data.list[i].dt_txt;
+                temperature.textContent = `Temperature C* ${data.list[i].main.temp}`;
                 weather.textContent = data.list[i].weather[0].main;
-                console.log(data.list[i].weather[0].main);
-              }
+                wind.textContent = `Wind Speed: ${data.list[i].wind.speed}`;
+                humidity.textContent = `Humidity: ${data.list[i].main.humidity}`;
+            }
         });
 }
 
-weatherButton.addEventListener("click", function(event)
-{
+weatherButton.addEventListener("click", function (event) {
     event.preventDefault();
     localStorage.setItem("city", city.value)
 
